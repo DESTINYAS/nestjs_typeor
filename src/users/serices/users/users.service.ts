@@ -5,6 +5,7 @@ import { User } from 'src/typeorm/entities/User';
 import { createUserParams,createUserPostParams, createUserProfileParams, UpdateUserParams } from 'src/utiles/types';
 import { Profile } from 'src/typeorm/entities/profile';
 import { Post } from 'src/typeorm/entities/Posts';
+import { encodePassword } from 'src/utiles/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +16,9 @@ export class UsersService {
     findUsers(){return this.userRepository.find({relations:['profile','posts']})}
 
     createUser(userDetails:createUserParams){
-        const newUser=this.userRepository.create({...userDetails,createdAt:new Date()})
+        const password=encodePassword(userDetails.password)
+        console.log(password)
+        const newUser=this.userRepository.create({...userDetails,password,createdAt:new Date()})
        return this.userRepository.save(newUser)
     }
     updateUser(id:number,updateUserDetails:UpdateUserParams){
@@ -46,5 +49,9 @@ export class UsersService {
             const newPost=this.postRepository.create({...createUserPostDetails,user})
             return this.postRepository.save(newPost)
 
+        }
+
+        findByUsername(username:string){
+            return this.userRepository.findOneBy({username});
         }
 } 

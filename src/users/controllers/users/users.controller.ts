@@ -4,6 +4,7 @@ import { createUserProfileDto } from 'src/DTO/createUserProfile.dto';
 import { createUserDto } from 'src/DTO/createUsers.dto';
 import { updateUserDto } from 'src/DTO/updateUser.dto';
 import { UsersService } from 'src/users/serices/users/users.service';
+import { encodePassword } from 'src/utiles/bcrypt';
 
 
 @Controller('users')
@@ -20,6 +21,7 @@ export class UsersController {
         this.userService.createUser(createUserDto)
         return createUserDto
     }
+
     @Put(':id')
     async updateUserById(@Param('id',ParseIntPipe) id:number,@Body()updateUserDto:updateUserDto){
        await this.userService.updateUser(id,updateUserDto)

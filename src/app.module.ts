@@ -6,6 +6,7 @@ import { Post } from './typeorm/entities/Posts';
 import { Profile } from './typeorm/entities/profile';
 import { User } from './typeorm/entities/User';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -17,7 +18,7 @@ import { UsersModule } from './users/users.module';
     database:"nestjs_mysql",
     entities:[User,Profile,Post],
     synchronize:true
-  }), UsersModule],
+  }), UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
